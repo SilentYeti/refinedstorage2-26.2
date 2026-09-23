@@ -29,6 +29,7 @@ import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -172,7 +173,7 @@ public class AlternativesScreen extends AbstractAmountScreen<AlternativeContaine
     private void addWidgetsForAlternative(final int idx, final int x) {
         final Alternative alternative = getMenu().getAlternatives().get(idx);
         final int y = getAlternativeY(idx);
-        final boolean hasTranslation = I18n.exists(alternative.getTranslationKey());
+        final boolean hasTranslation = Language.getInstance().has(alternative.getTranslationKey());
         final MutableComponent id = Component.literal(alternative.getId().toString());
         final CheckboxWidget alternativeCheckbox = new CheckboxWidget(
             x + 2,

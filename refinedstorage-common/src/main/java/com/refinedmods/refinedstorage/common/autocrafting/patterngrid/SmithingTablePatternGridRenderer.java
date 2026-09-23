@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -85,7 +85,7 @@ class SmithingTablePatternGridRenderer implements PatternGridRenderer {
         if (level == null) {
             return;
         }
-        this.armorStandPreview.entityType = EntityType.ARMOR_STAND;
+        this.armorStandPreview.entityType = EntityTypes.ARMOR_STAND;
         this.armorStandPreview.showBasePlate = false;
         this.armorStandPreview.showArms = true;
         this.armorStandPreview.xRot = 25.0F;

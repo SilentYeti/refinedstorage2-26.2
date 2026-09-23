@@ -34,7 +34,7 @@ class AutocrafterPrioritySideButtonWidget extends AbstractSideButtonWidget {
     private static OnPress createPressAction(final ClientProperty<Integer> property,
                                              final Inventory playerInventory,
                                              final Screen parent) {
-        return btn -> Minecraft.getInstance().setScreen(
+        return btn -> Minecraft.getInstance().gui.setScreen(
             new PriorityScreen(TITLE, property.get(), property::setValue, parent, playerInventory)
         );
     }

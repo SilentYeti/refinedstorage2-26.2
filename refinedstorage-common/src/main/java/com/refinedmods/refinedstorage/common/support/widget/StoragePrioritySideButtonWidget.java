@@ -84,7 +84,7 @@ public class StoragePrioritySideButtonWidget extends AbstractSideButtonWidget {
                     extractProperty.setValue(value);
                 };
             }
-            Minecraft.getInstance().setScreen(new PriorityScreen(title, priority, listener, parent, playerInventory));
+            Minecraft.getInstance().gui.setScreen(new PriorityScreen(title, priority, listener, parent, playerInventory));
         };
     }
 

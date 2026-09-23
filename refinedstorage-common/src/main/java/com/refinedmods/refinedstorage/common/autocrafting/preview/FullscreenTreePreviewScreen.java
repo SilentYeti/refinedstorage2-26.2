@@ -43,7 +43,7 @@ class FullscreenTreePreviewScreen extends Screen {
     @Override
     public boolean keyPressed(final KeyEvent event) {
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
-            Minecraft.getInstance().setScreen(parent);
+            Minecraft.getInstance().gui.setScreen(parent);
             return true;
         }
         return super.keyPressed(event);

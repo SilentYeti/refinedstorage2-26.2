@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -45,7 +46,7 @@ class AlternativeContainerMenu extends AbstractResourceContainerMenu {
     void filter(final String query) {
         final String normalizedQuery = query.trim().toLowerCase(Locale.ROOT);
         alternatives.forEach(alternative -> {
-            final boolean titleMatch = I18n.exists(alternative.getTranslationKey())
+            final boolean titleMatch = Language.getInstance().has(alternative.getTranslationKey())
                 && I18n.get(alternative.getTranslationKey()).trim().toLowerCase(Locale.ROOT).contains(normalizedQuery);
             final boolean idMatch = alternative.getId().toString().trim().toLowerCase(Locale.ROOT)
                 .contains(normalizedQuery);

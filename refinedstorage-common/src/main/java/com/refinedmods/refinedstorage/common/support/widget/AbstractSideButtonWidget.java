@@ -63,7 +63,7 @@ public abstract class AbstractSideButtonWidget extends Button {
         );
         if (isHovered) {
             graphics.blitSprite(GUI_TEXTURED, HOVER_OVERLAY_SPRITE, getX(), getY(), SIZE, SIZE, 0x80FFFFFF);
-            final Screen screen = Minecraft.getInstance().screen;
+            final Screen screen = Minecraft.getInstance().gui.screen();
             if (screen instanceof AbstractBaseScreen<?> baseScreen) {
                 baseScreen.setDeferredTooltip(buildTooltip());
             }

@@ -318,7 +318,7 @@ public abstract class AbstractBaseScreen<T extends AbstractContainerMenu> extend
             && isNotTryingToRemoveFilter
             && isNotCarryingItem;
         if (canOpen) {
-            minecraft.setScreen(createResourceAmountScreen(slot));
+            minecraft.gui.setScreen(createResourceAmountScreen(slot));
         }
         return canOpen;
     }

@@ -15,6 +15,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -96,7 +97,7 @@ class ProcessingMatrixInputClientTooltipComponent implements ClientTooltipCompon
 
     private static Component getName(final ResourceTag alternative) {
         final String translationKey = IdentifierUtil.getTagTranslationKey(alternative.key());
-        final boolean hasTranslation = I18n.exists(translationKey);
+        final boolean hasTranslation = Language.getInstance().has(translationKey);
         return hasTranslation
             ? Component.translatable(translationKey)
             : Component.literal(alternative.key().location().toString());

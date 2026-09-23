@@ -11,21 +11,21 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
 import static com.refinedmods.refinedstorage.common.util.IdentifierUtil.MOD_ID;
 
-public class BlockTagsProvider extends IntrinsicHolderTagsProvider<Block> {
+public class BlockTagsProvider extends TagsProvider<Block> {
     public static final TagKey<Block> MINEABLE = TagKey.create(Registries.BLOCK,
         Identifier.withDefaultNamespace("mineable/pickaxe"));
 
-    @SuppressWarnings("deprecation")
     public BlockTagsProvider(final PackOutput packOutput, final CompletableFuture<HolderLookup.Provider> registries) {
-        super(packOutput, Registries.BLOCK, registries, block -> block.builtInRegistryHolder().key(), MOD_ID);
+        super(packOutput, Registries.BLOCK, registries, MOD_ID);
     }
 
     @Override
@@ -68,10 +68,14 @@ public class BlockTagsProvider extends IntrinsicHolderTagsProvider<Block> {
     private <T extends Block & BlockItemProvider<I>, I extends BlockItem> void markAsMineable(
         final BlockColorMap<T, I> map
     ) {
-        tag(MINEABLE).addAll(map.values().stream().map(b -> (Block) b).toList());
+        tag(MINEABLE).addAll(map.values().stream().map(b -> key((Block) b)).toList());
     }
 
     private void markAsMineable(final Block block) {
-        tag(MINEABLE).add(block);
+        tag(MINEABLE).add(key(block));
+    }
+
+    private static ResourceKey<Block> key(final Block block) {
+        return block.builtInRegistryHolder().key();
     }
 }

@@ -108,7 +108,7 @@ public class CheckboxWidget extends AbstractButton {
     public void extractContents(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY,
                                 final float partialTicks) {
         final Minecraft minecraft = Minecraft.getInstance();
-        if (isHovered && helpTooltip != null && minecraft.screen instanceof AbstractBaseScreen<?> screen) {
+        if (isHovered && helpTooltip != null && minecraft.gui.screen() instanceof AbstractBaseScreen<?> screen) {
             screen.setDeferredTooltip(List.of(HelpClientTooltipComponent.createAlwaysDisplayed(helpTooltip)));
         }
         final Identifier sprite;

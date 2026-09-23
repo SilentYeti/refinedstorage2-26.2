@@ -22,7 +22,7 @@ public final class PatternRendering {
         if (Minecraft.getInstance().hasShiftDown()) {
             return true;
         }
-        final Screen screen = Minecraft.getInstance().screen;
+        final Screen screen = Minecraft.getInstance().gui.screen();
         if (!(screen instanceof PatternOutputRenderingScreen patternOutputRenderingScreen)) {
             return false;
         }

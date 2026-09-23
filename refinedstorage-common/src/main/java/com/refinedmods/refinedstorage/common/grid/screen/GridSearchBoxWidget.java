@@ -19,6 +19,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jspecify.annotations.Nullable;
 
 class GridSearchBoxWidget extends SearchFieldWidget implements GridSearchBox {
     private final Set<Consumer<String>> listeners = new HashSet<>();
@@ -68,8 +69,18 @@ class GridSearchBoxWidget extends SearchFieldWidget implements GridSearchBox {
     }
 
     private Component toComponent(final SyntaxHighlightedCharacter character) {
-        final ChatFormatting color = ChatFormatting.getByName(character.getColor());
+        final ChatFormatting color = byName(character.getColor());
         return Component.literal(character.getCharacter()).withStyle(color == null ? ChatFormatting.WHITE : color);
+    }
+
+    @Nullable
+    private static ChatFormatting byName(final String name) {
+        // ChatFormatting#getByName was removed; SyntaxHighlighterColors only ever produces valid enum names.
+        try {
+            return ChatFormatting.valueOf(name);
+        } catch (final IllegalArgumentException e) {
+            return null;
+        }
     }
 
     private Lexer createLexer(final String text) {
