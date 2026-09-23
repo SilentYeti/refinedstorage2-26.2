@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "ingredients": [
     "refinedstorage:storage_housing",
     "refinedstorage:64k_storage_part"

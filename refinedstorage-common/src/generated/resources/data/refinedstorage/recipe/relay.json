@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "ingredients": [
     "refinedstorage:machine_casing",
     "refinedstorage:cable",

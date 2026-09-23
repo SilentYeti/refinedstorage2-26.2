@@ -76,7 +76,7 @@ neoForge {
             server()
         }
         create("data") {
-            data()
+            clientData()
             programArguments.addAll(
                 "--mod", "refinedstorage",
                 "--all",
@@ -89,7 +89,7 @@ neoForge {
 }
 
 val modMetadataProps = mapOf(
-    "version" to project.version,
+    "version" to project.version.toString(),
     "neoforge_version_range" to property("neoforge_version_range"),
 )
 val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata") {

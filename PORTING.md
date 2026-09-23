@@ -70,22 +70,63 @@ way upstream did.
 
 ## Status as of 2026-09-23
 
-**Builds clean:** `:refinedstorage-common` (774 files), `:refinedstorage-common-api`,
-`:refinedstorage-neoforge` (160 files), `:refinedstorage-neoforge-api`, and all eight untouched
-pure-Java modules. `:refinedstorage-fabric` / `:refinedstorage-fabric-api` in progress (see below).
+**Builds clean, both loaders:** every module compiles and packages against MC 26.2 --
+`:refinedstorage-common` (774 files), `:refinedstorage-common-api`, `:refinedstorage-neoforge`
+(160 files), `:refinedstorage-neoforge-api`, `:refinedstorage-fabric` (94 files),
+`:refinedstorage-fabric-api`, and all eight untouched pure-Java modules. `./gradlew
+:refinedstorage-fabric:jar :refinedstorage-neoforge:jar` produces both loader jars with mod metadata
+correctly expanded, `:refinedstorage-common`'s assets/datagen bundled in, and cloth-config/energy
+jar-in-jar'd on the Fabric side.
 
-**Not yet done:** a runtime smoke test (client boots to main menu, world loads, mod's blocks/items
-are present) on either loader. "Compiles" has been verified; "runs" has not. Do that next, on both
-loaders, before calling this port usable.
+**Runtime-validated, both loaders, headless (no display in this environment -- see below):**
+- **NeoForge**: `:refinedstorage-neoforge:runData` -- FML discovers and loads the `refinedstorage`
+  mod (alongside `minecraft`/`neoforge`), Mixin applies (`AbstractContainerMenuMixin`,
+  `AbstractGuiGraphicsExtractorMixin`), and NeoForge's data generator runs `refinedstorage`'s vanilla
+  model-definition, loot-table, recipe, tag and advancement providers to completion (2138 files
+  written, `BUILD SUCCESSFUL`). This exercises real registration code, not just class loading.
+- **Fabric**: `:refinedstorage-fabric:runServer` -- Fabric Loader loads all 47 mods including
+  `refinedstorage 3.3.0-26.2-port`, Mixin/MixinExtras initialize, and it reaches the normal
+  "accept the EULA" stop (`eula.txt`) with no crash and no `NoClassDefFoundError`. That's Mojang's own
+  gate, not a mod bug -- the next manual step (deliberately not done here, since accepting Mojang's
+  EULA is the user's call, not something to automate) is `echo eula=true >
+  refinedstorage-fabric/run-server/eula.txt` and rerun to see the world actually start.
+
+**Not done, because this environment is headless** (`DISPLAY`/`WAYLAND_DISPLAY` are set but `xset q`
+fails -- no real display access from this sandbox): an actual client GUI boot to the main menu, on
+either loader. Everything up to that point (mod loading, registries, mixins, data generation) is
+verified; rendering/GUI never draws a frame yet. Run `./gradlew :refinedstorage-neoforge:runClient` or
+`:refinedstorage-fabric:runClient` from a real desktop session to close that last gap.
 
 **Deliberately deferred this pass** (compiles-and-boots is the bar, not full feature parity):
 - Publishing/Maven config, Sonar coverage exclusions, mutation testing for the six re-toolchained
   modules (upstream's refinedarchitect convenience helpers for these were dropped along with the
   plugin; not needed for a local/dev build).
-- `refinedstorage-network-test` and the unit test suites in `common`/`neoforge` compile but haven't
-  been run (`./gradlew test`) -- only `compileJava`/`compileTestJava` were exercised so far.
-- Full runtime parity check against the 26.1 upstream build (recipes, tags, loot tables, rendering)
-  wasn't attempted -- only what javac's error list surfaced.
+- `refinedstorage-network-test` and the unit test suites in `common`/`neoforge`/`fabric` compile but
+  haven't been run (`./gradlew test`) -- only `compileJava`/`compileTestJava` were exercised so far.
+- Full runtime parity check against the 26.1 upstream build (every recipe, every tag, every rendered
+  screen) wasn't attempted -- only what javac's error list plus the two headless runtime checks above
+  surfaced. The regenerated `refinedstorage-common/src/generated/resources` diff against the old 26.1
+  output is small and benign either way: Mojang's loot-table codec stopped serializing the default
+  `"bonus_rolls": 0.0` field, and the datagen JSON writer stopped adding a trailing newline -- both
+  cosmetic, not semantic.
+- `project.version` had no explicit value (upstream's refinedarchitect.root normally derives it from
+  git tags, untouched here) and NeoForge's mods.toml parser hard-rejects Gradle's `"unspecified"`
+  fallback ("Illegal version number"). Pinned to `version=3.3.0-26.2-port` in root `gradle.properties`
+  as a placeholder -- replace with whatever this fork's actual release versioning ends up being.
+
+### A second build-file gotcha found via the runtime checks above
+
+**Fabric dev runs need the bundled projects' output on the *runtime* classpath, not just compile.**
+`compileOnly(project(path))` (used for all nine bundled modules) only affects compilation; a Loom dev
+run loads classes straight from each project's `build/classes` directory rather than the packaged jar
+(bundling via the `jar` task's `from(...)` only matters for a *built* jar), so without also adding
+`sourceSets.main { compileClasspath += ...; runtimeClasspath += ... }` for each bundled module's
+output, `:refinedstorage-fabric:runServer` threw `NoClassDefFoundError` on the first bundled-module
+class it touched (`AbstractModInitializer`, in `:refinedstorage-common`). NeoForge doesn't have this
+problem: ModDevGradle's `mods { create("refinedstorage") { sourceSet(...) } }` block (used for exactly
+this purpose) handles both classpath and resource merging for dev runs on its own -- Loom has no
+equivalent, `fabric.classPathGroups` (used here too, for `fabric.mod.json`/resource merging) only
+affects Fabric Loader's own mod/resource discovery, not the JVM classpath itself.
 
 ### Minecraft 26.1 -> 26.2 API changes found and fixed (all in `common` and `neoforge`, mechanical
 once identified -- useful if this needs redoing against a future MC bump)

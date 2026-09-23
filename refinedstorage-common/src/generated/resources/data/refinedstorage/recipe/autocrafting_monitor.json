@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "A": "refinedstorage:pattern",
     "E": "refinedstorage:quartz_enriched_iron",

@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "L": "#c:slime_balls",
     "S": "#c:strings"

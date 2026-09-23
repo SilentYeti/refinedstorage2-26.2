@@ -74,6 +74,14 @@ sourceSets {
     main {
         resources.srcDir(commonProject.file("src/main/resources"))
         resources.srcDir(commonProject.file("src/generated/resources"))
+        // compileOnly (below) puts these on the compile classpath; a dev run reads classes straight
+        // out of each project's build directory rather than the packaged jar (which is where the
+        // `jar` task's `from(...)` bundling actually takes effect), so without this a dev run throws
+        // NoClassDefFoundError on any bundled-module class as soon as :refinedstorage-fabric touches it.
+        bundledMainSourceSets.forEach {
+            compileClasspath += it.get().output
+            runtimeClasspath += it.get().output
+        }
     }
 }
 
@@ -86,9 +94,10 @@ val devModPaths = files(
     sourceSets.main.get().output.classesDirs,
     sourceSets.main.get().output.resourcesDir,
 ).plus(files(bundledMainSourceSets.map { it.get().output.classesDirs }))
-    .files.joinToString(java.io.File.pathSeparator) { it.absolutePath }
+    .files.joinToString(File.pathSeparator) { it.absolutePath }
 
 loom {
+    accessWidenerPath.set(file("src/main/resources/refinedstorage.accesswidener"))
     runs {
         configureEach {
             property("fabric.classPathGroups", devModPaths)
@@ -103,19 +112,22 @@ loom {
     }
 }
 
-val fabricModMetadataProps = mapOf(
-    "version" to project.version,
-    "minecraft_version" to property("minecraft_version"),
-    "fabric_loader_version" to property("fabric_loader_version"),
-)
+val fabricModVersion = project.version.toString()
+val fabricModMinecraftVersion = property("minecraft_version").toString()
+val fabricModLoaderVersion = property("fabric_loader_version").toString()
 tasks.withType<ProcessResources> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     filesMatching("assets/refinedstorage/blockstates/*.json") {
         filter { line -> line.replace("\"type\"", "\"fabric:type\"") }
     }
-    inputs.properties(fabricModMetadataProps)
+    val props = mapOf(
+        "version" to fabricModVersion,
+        "minecraft_version" to fabricModMinecraftVersion,
+        "fabric_loader_version" to fabricModLoaderVersion,
+    )
+    inputs.properties(props)
     filesMatching("fabric.mod.json") {
-        expand(fabricModMetadataProps)
+        expand(props)
     }
     // Only ever produced by the NeoForge datagen run.
     exclude(".cache/**")
