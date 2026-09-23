@@ -161,7 +161,12 @@ once identified -- useful if this needs redoing against a future MC bump)
   take `ResourceKey<T>`, not raw instances (same `builtInRegistryHolder().key()` conversion).
 - New render pipeline API (`com.mojang.blaze3d.pipeline.RenderPipeline`):
   `RenderPipelines.MATRICES_PROJECTION_SNIPPET` was removed (closest replacement:
-  `MATRICES_FOG_SNIPPET`, same bind groups plus an unused fog uniform); `.withVertexFormat(VertexFormat,
+  `MATRICES_FOG_SNIPPET`, same bind groups plus an unused fog uniform -- **note**: `MATRICES_FOG_SNIPPET`
+  is itself already built on top of `GLOBALS_SNIPPET`, so pass it alone, not alongside
+  `GLOBALS_SNIPPET` -- doing both registers the `Globals` bind group twice and fails pipeline
+  compilation at runtime with no compile-time warning; this bit `RenderTypes.DISK_LEDS_PIPELINE` on
+  both loaders, found only by actually placing a Storage Drive and reading the render-thread error);
+  `.withVertexFormat(VertexFormat,
   VertexFormat.Mode)` split into `.withVertexBinding(int bindingIndex, VertexFormat)` +
   `.withPrimitiveTopology(PrimitiveTopology)` (draw mode moved out of `VertexFormat.Mode`, which no
   longer exists, into a new top-level `com.mojang.blaze3d.PrimitiveTopology` enum);
@@ -173,3 +178,20 @@ To re-derive any of the above from scratch: NeoForge publishes a `-sources.jar` 
 (`createMinecraftArtifacts`) leaves the full decompiled-and-patched vanilla source tree under
 `~/.gradle/caches/neoformruntime/intermediate_results/mergeWithSources_*_output.jar` -- unzip it and
 grep, rather than guessing at API shapes.
+
+## Verified via actual gameplay, not just headless boot (2026-09-23)
+
+`:refinedstorage-fabric:runClient` was run on a real display: reached the main menu, joined a
+singleplayer world, and the Grid GUI rendered and functioned correctly (placed a Disk Drive, opened
+it, pinned/stored items) -- this is what caught the `disk_leds` pipeline bug above, which headless
+`runServer`/`runData` checks could never have surfaced since they never draw a frame.
+
+**Investigated and closed, not a port regression:** a report of multiple `64k Storage Disk`s in one
+Disk Drive sharing a single stored-item count traced back to upstream's existing creative-mode
+middle-click-clone protection (`AbstractContainerMenuMixin.doClick`, mirrors
+`CHANGELOG.md`'s "Duplicating storage disks with middle click in creative mode will now give a new
+storage disk instead of referencing the copied one"). Live-instrumented and confirmed
+`StorageContainerItemHelperImpl.clear()` correctly strips the storage reference on every clone
+attempt in this build -- the shared-count disks observed were pre-existing, already-linked disks
+persisted in the world save from before this fix was ever exercised in this session, not a live bug.
+No code change was needed; this is a creative-mode edge case, not gameplay-affecting for normal play.
