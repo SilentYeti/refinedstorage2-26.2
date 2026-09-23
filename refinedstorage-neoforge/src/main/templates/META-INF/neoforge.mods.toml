@@ -1,16 +1,16 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-issueTrackerURL = "https://github.com/refinedmods/refinedstorage2"
+issueTrackerURL = "https://github.com/SilentYeti/refinedstorage2-26.2/issues"
 license = "MIT"
 [[mods]]
 modId = "refinedstorage"
 version = "${version}"
-displayName = "Refined Storage"
+displayName = "Refined Storage: Community Edition"
 displayURL = "https://refinedmods.com/refined-storage"
 logoFile = "icon.png"
 authors = "Refined Mods"
 description = '''
-Refined Storage is a mass storage mod for Minecraft that offers the player a network-based storage system, allowing them to store items and fluids on a massively expandable device network.
+Refined Storage: Community Edition is a community-maintained fork of Refined Storage, a mass storage mod for Minecraft that offers the player a network-based storage system, allowing them to store items and fluids on a massively expandable device network. Not affiliated with Refined Mods.
 '''
 [[mixins]]
 config = "refinedstorage.mixins.json"

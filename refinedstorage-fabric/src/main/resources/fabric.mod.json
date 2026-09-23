@@ -2,14 +2,15 @@
   "schemaVersion": 1,
   "id": "refinedstorage",
   "version": "${version}",
-  "name": "Refined Storage",
-  "description": "Refined Storage is a mass storage mod for Minecraft that offers the player a network-based storage system, allowing them to store items and fluids on a massively expandable device network.",
+  "name": "Refined Storage: Community Edition",
+  "description": "Refined Storage: Community Edition is a community-maintained fork of Refined Storage, a mass storage mod for Minecraft that offers the player a network-based storage system, allowing them to store items and fluids on a massively expandable device network. Not affiliated with Refined Mods.",
   "authors": [
     "Refined Mods"
   ],
   "contact": {
-    "sources": "https://github.com/refinedmods/refinedstorage2",
-    "issues": "https://github.com/refinedmods/refinedstorage2/issues"
+    "sources": "https://github.com/SilentYeti/refinedstorage2-26.2",
+    "issues": "https://github.com/SilentYeti/refinedstorage2-26.2/issues",
+    "homepage": "https://refinedmods.com/refined-storage"
   },
   "accessWidener": "refinedstorage.accesswidener",
   "icon": "assets/refinedstorage/icon.png",
@@ -25,13 +26,6 @@
     "modmenu": [
       "com.refinedmods.refinedstorage.fabric.modmenu.ModMenuApiImpl"
     ]
-  },
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://discordapp.com/invite/VYzsydb"
-      }
-    }
   },
   "mixins": [
     "refinedstorage.mixins.json"

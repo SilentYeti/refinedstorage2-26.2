@@ -5,14 +5,17 @@ Fabric and NeoForge. Live state, not a design doc -- update it as things move.
 
 ## The blocker this fork exists to route around
 
-Upstream's own build plugin, `com.refinedmods.refinedarchitect` (closed-source, hosted at
-`https://maven.creeperhost.net`), hardcodes Minecraft 26.1 in its `.common`/`.fabric`/`.neoforge`
-Gradle extensions. Confirmed by decompiling `refinedarchitect-plugin-1.7.1.jar` (the latest published
-version as of 2026-09-23): `FabricExtension.class` has the literal dependency string
-`com.mojang:minecraft:26.1.2` baked into bytecode, and `NeoForgeExtension.class` has NeoForge
-`26.1.2.78`. `refinedarchitect-versioning-1.7.1.toml` still pins `cloth-config-fabric = "26.1.154"`.
-There is no newer published version to bump to -- this isn't a config problem, the plugin itself needs
-a release RefinedMods hasn't shipped yet.
+Upstream's own build plugin, [`com.refinedmods.refinedarchitect`](https://github.com/refinedmods/refinedarchitect)
+(open source, MIT, published to a maven RefinedMods hosts at `https://maven.creeperhost.net`),
+hardcodes Minecraft 26.1 in its `.common`/`.fabric`/`.neoforge` Gradle extensions. Confirmed by
+decompiling `refinedarchitect-plugin-1.7.1.jar` (the latest published version as of 2026-09-23):
+`FabricExtension.class` has the literal dependency string `com.mojang:minecraft:26.1.2` baked into
+bytecode, and `NeoForgeExtension.class` has NeoForge `26.1.2.78`.
+`refinedarchitect-versioning-1.7.1.toml` still pins `cloth-config-fabric = "26.1.154"`. Checked
+GitHub directly too: no 26.2 branch, no open PR, nothing in the plugin's own repo touching this yet
+-- there is no newer published version to bump to, and nobody upstream is working on one. This isn't
+a config problem or a licensing wall, it's that the plugin needs a release nobody has cut yet, so
+this fork routes around it instead of waiting.
 
 **The fix**: bypass those three plugin extensions for the six modules that need Minecraft on their
 classpath, and use plain Fabric Loom / NeoForge ModDevGradle instead, targeting 26.2 directly. The
