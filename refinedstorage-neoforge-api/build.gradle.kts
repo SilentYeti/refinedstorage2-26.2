@@ -1,9 +1,13 @@
+// MC 26.2 port: plain NeoForge ModDevGradle, replacing refinedarchitect's `.neoforge` plugin
+// (hardcoded to NeoForge 26.1.2.78 -- see settings.gradle.kts / PORTING.md).
 plugins {
-    id("com.refinedmods.refinedarchitect.neoforge")
+    id("net.neoforged.moddev")
 }
 
-refinedarchitect {
-    neoForge()
+neoForge {
+    enable {
+        version = property("neoforge_version") as String
+    }
 }
 
 dependencies {

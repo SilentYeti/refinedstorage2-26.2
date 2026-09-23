@@ -1,18 +1,26 @@
+// MC 26.2 port: see refinedstorage-common-api/build.gradle.kts.
 plugins {
-    id("com.refinedmods.refinedarchitect.common")
+    id("net.neoforged.moddev")
 }
 
-refinedarchitect {
-    common()
-    testing()
-    javadoc()
-    publishing {
-        maven = true
+neoForge {
+    enable {
+        neoFormVersion = property("neoform_version") as String
     }
 }
 
 base {
     archivesName.set("refinedstorage-common")
+}
+
+// Datagen output (src/generated/resources) is written by :refinedstorage-neoforge's `data` run and
+// ships in both loaders' jars, same as it always did.
+sourceSets.main {
+    resources.srcDir("src/generated/resources")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -28,4 +36,8 @@ dependencies {
     testImplementation(libs.assertj)
     testImplementation(libs.equalsverifier)
     testRuntimeOnly(libs.junit.engine)
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xmaxerrs", "10000"))
 }

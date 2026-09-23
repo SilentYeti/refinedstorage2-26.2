@@ -1,12 +1,14 @@
+// MC 26.2 port: compiled against vanilla Minecraft only, via ModDevGradle's NeoForm mode, replacing
+// refinedarchitect's `.common` plugin (hardcoded to MC 26.1 -- see settings.gradle.kts / PORTING.md).
+// Nothing here may import net.neoforged.* or net.fabricmc.*; loader-specific code lives in
+// refinedstorage-fabric(-api)/refinedstorage-neoforge(-api).
 plugins {
-    id("com.refinedmods.refinedarchitect.common")
+    id("net.neoforged.moddev")
 }
 
-refinedarchitect {
-    common()
-    javadoc()
-    publishing {
-        maven = true
+neoForge {
+    enable {
+        neoFormVersion = property("neoform_version") as String
     }
 }
 
