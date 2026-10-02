@@ -2,6 +2,7 @@ package com.refinedmods.refinedstorage.neoforge;
 
 import com.refinedmods.refinedstorage.common.AbstractClientModInitializer;
 import com.refinedmods.refinedstorage.common.Platform;
+import com.refinedmods.refinedstorage.common.api.RefinedStorageApi;
 import com.refinedmods.refinedstorage.common.api.support.HelpTooltipComponent;
 import com.refinedmods.refinedstorage.common.api.upgrade.AbstractUpgradeItem;
 import com.refinedmods.refinedstorage.common.autocrafting.PatternItem;
@@ -34,6 +35,9 @@ import com.refinedmods.refinedstorage.neoforge.storage.diskinterface.ForgeDiskIn
 import com.refinedmods.refinedstorage.neoforge.storage.portablegrid.ForgePortableGridBlockEntityRenderer;
 import com.refinedmods.refinedstorage.neoforge.storage.portablegrid.PortableGridItemModel;
 import com.refinedmods.refinedstorage.neoforge.storage.portablegrid.PortableGridUnbakedBlockStateModel;
+import com.refinedmods.refinedstorage.rei.common.Common;
+import com.refinedmods.refinedstorage.rei.forge.ReiGridSynchronizer;
+import com.refinedmods.refinedstorage.rei.forge.ReiRecipeModIngredientConverter;
 
 import java.util.List;
 
@@ -82,6 +86,21 @@ public final class ClientModInitializer extends AbstractClientModInitializer {
         registerResourceRendering();
         registerAlternativeGridHints();
         registerDiskModels();
+        registerReiIntegration();
+    }
+
+    // Optional: inert unless REI is actually loaded (this event only fires client-side, and REI's
+    // own types are compileOnly -- see refinedstorage-neoforge/build.gradle.kts).
+    private static void registerReiIntegration() {
+        RefinedStorageApi.INSTANCE.addIngredientConverter(new ReiRecipeModIngredientConverter());
+        RefinedStorageApi.INSTANCE.getGridSynchronizerRegistry().register(
+            Common.SYNCHRONIZER_ID,
+            new ReiGridSynchronizer(false)
+        );
+        RefinedStorageApi.INSTANCE.getGridSynchronizerRegistry().register(
+            Common.TWO_WAY_SYNCHRONIZER_ID,
+            new ReiGridSynchronizer(true)
+        );
     }
 
     @SubscribeEvent

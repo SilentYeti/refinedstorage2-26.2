@@ -1,0 +1,13 @@
+{
+  "gui.refinedstorage_rei_integration.grid.synchronizer": "REI",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.help": "Synchroniser la recherche avec le filtre de REI.",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way": "REI bidirectionnel",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way.help": "Synchroniser la recherche avec le filtre de REI et le filtre de REI avec la recherche.",
+  "block.refinedstorage_rei_integration.controller.fully_charged": "Contrôleurs entièrement chargés",
+  "gui.refinedstorage_rei_integration.transfer.missing": "Objets manquants",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_all_autocraftable": "Objets manquants, tous peuvent être produits automatiquement",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_some_autocraftable": "Objets manquants, certains peuvent être produits automatiquement",
+  "gui.refinedstorage_rei_integration.transfer.ctrl_click_to_autocraft": "Ctrl + clic pour produire automatiquement",
+  "gui.refinedstorage_rei_integration.transfer.all_autocraftable": "Tous peuvent être produits automatiquement",
+  "gui.refinedstorage_rei_integration.transfer.some_autocraftable": "Certains peuvent être produits automatiquement"
+}

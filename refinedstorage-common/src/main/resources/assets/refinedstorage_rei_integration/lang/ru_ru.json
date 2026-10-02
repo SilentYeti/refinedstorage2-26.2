@@ -1,0 +1,13 @@
+{
+  "gui.refinedstorage_rei_integration.grid.synchronizer": "REI",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.help": "Синхронизировать строку поиска с фильтром REI.",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way": "REI двустороний",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way.help": "Синхронизировать текст строки поиска с фильтром REI, а фильтр REI - с текстом строки поиска.",
+  "block.refinedstorage_rei_integration.controller.fully_charged": "Полностью заряженные контроллеры",
+  "gui.refinedstorage_rei_integration.transfer.missing": "Отсутствующие предметы",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_all_autocraftable": "Отсутствуют элементы, все они могут быть автоматически скрафчены",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_some_autocraftable": "Отсутствуют элементы, некоторые из них могут быть автоматически скрафчены",
+  "gui.refinedstorage_rei_integration.transfer.ctrl_click_to_autocraft": "CTRL + клик для автокрафта",
+  "gui.refinedstorage_rei_integration.transfer.all_autocraftable": "Всё можно скрафтить автоматически",
+  "gui.refinedstorage_rei_integration.transfer.some_autocraftable": "Некоторые из них доступны для автокрафта"
+}

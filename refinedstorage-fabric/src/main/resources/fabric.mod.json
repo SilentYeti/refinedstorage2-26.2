@@ -27,10 +27,14 @@
       "com.refinedmods.refinedstorage.fabric.modmenu.ModMenuApiImpl"
     ],
     "refinedstorage_plugin": [
-      "com.refinedmods.refinedstorage.jei.fabric.JeiRefinedStoragePlugin"
+      "com.refinedmods.refinedstorage.jei.fabric.JeiRefinedStoragePlugin",
+      "com.refinedmods.refinedstorage.rei.fabric.ReiRefinedStoragePlugin"
     ],
     "jei_mod_plugin": [
       "com.refinedmods.refinedstorage.jei.common.RefinedStorageModPlugin"
+    ],
+    "rei_client": [
+      "com.refinedmods.refinedstorage.rei.fabric.ReiClientPlugin"
     ]
   },
   "mixins": [
@@ -46,6 +50,7 @@
   },
   "suggests": {
     "modmenu": "*",
-    "jei": "*"
+    "jei": "*",
+    "roughlyenoughitems": "*"
   }
 }

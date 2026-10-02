@@ -1,7 +1,8 @@
 import org.gradle.api.initialization.resolve.RepositoriesMode
 
-// MC 26.2 port: the upstream `com.refinedmods.refinedarchitect` build plugin (closed-source, hosted
-// below) hardcodes Minecraft 26.1 for its `.common`/`.fabric`/`.neoforge` extensions (confirmed by
+// MC 26.2 port: the upstream `com.refinedmods.refinedarchitect` build plugin (open source, MIT,
+// https://github.com/refinedmods/refinedarchitect, hosted below) hardcodes Minecraft 26.1 for its
+// `.common`/`.fabric`/`.neoforge` extensions (confirmed by
 // decompiling refinedarchitect-plugin-1.7.1.jar -- `com.mojang:minecraft:26.1.2` and NeoForge
 // `26.1.2.78` are baked into FabricExtension/NeoForgeExtension bytecode, and 1.7.1 is the latest
 // published version). Those three modding plugins are bypassed below in favor of plain Fabric Loom /
@@ -26,6 +27,18 @@ dependencyResolutionManagement {
         maven {
             name = "JEI"
             url = uri("https://maven.blamejared.com/")
+        }
+        // REI recipe-transfer/ghost-ingredient integration, NeoForge side (optional, see
+        // refinedstorage-neoforge's build.gradle.kts). Same PREFER_PROJECT reasoning as JEI above --
+        // refinedstorage-neoforge has no project-level repositories block of its own to extend, so this
+        // has to live here rather than break net.neoforged.moddev.repositories' injected repos.
+        maven {
+            name = "REI"
+            url = uri("https://maven.shedaniel.me/")
+        }
+        maven {
+            name = "Architectury"
+            url = uri("https://maven.architectury.dev/")
         }
         mavenCentral()
     }

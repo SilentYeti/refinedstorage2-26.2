@@ -55,6 +55,15 @@ dependencies {
     compileOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge-api:${property("jei_version")}")
     runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}")
 
+    // Optional: REI recipe-transfer/ghost-ingredient integration -- mirrors the JEI note above. REI's
+    // own @REIPluginClient-annotated classes are discovered via NeoForge's annotation scanning, same as
+    // JEI's @JeiPlugin, so no explicit registration file is needed beyond what's already wired into
+    // ClientModInitializer.
+    compileOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}")
+    runtimeOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}")
+    compileOnly("dev.architectury:architectury-neoforge:${property("architectury_version")}")
+    runtimeOnly("dev.architectury:architectury-neoforge:${property("architectury_version")}")
+
     testImplementation(libs.junit.api)
     testImplementation(libs.junit.params)
     testRuntimeOnly(libs.junit.engine)

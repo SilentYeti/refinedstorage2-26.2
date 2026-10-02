@@ -1,0 +1,13 @@
+{
+  "gui.refinedstorage_rei_integration.grid.synchronizer": "REI",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.help": "検索窓のテキストをREIのフィルターと同期します",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way": "REI（双方向）",
+  "gui.refinedstorage_rei_integration.grid.synchronizer.two_way.help": "検索窓のテキストをREIのフィルターに、REIのフィルターを検索窓のテキストに同期します",
+  "block.refinedstorage_rei_integration.controller.fully_charged": "フル充電のコントローラー",
+  "gui.refinedstorage_rei_integration.transfer.missing": "不足しているアイテム",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_all_autocraftable": "アイテムが不足していますが、すべてオートクラフト可能です",
+  "gui.refinedstorage_rei_integration.transfer.missing_but_some_autocraftable": "アイテムが不足していますが、いくつかはオートクラフト可能です",
+  "gui.refinedstorage_rei_integration.transfer.ctrl_click_to_autocraft": "Ctrl + クリックでオートクラフト",
+  "gui.refinedstorage_rei_integration.transfer.all_autocraftable": "すべてオートクラフト可能です",
+  "gui.refinedstorage_rei_integration.transfer.some_autocraftable": "いくつかはオートクラフト可能です"
+}

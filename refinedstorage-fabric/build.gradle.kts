@@ -19,12 +19,17 @@ repositories {
         url = uri("https://maven.terraformersmc.com/")
     }
     maven {
-        name = "Cloth Config"
+        // Also serves REI (RoughlyEnoughItems).
+        name = "Cloth Config / REI"
         url = uri("https://maven.shedaniel.me/")
     }
     maven {
         name = "JEI"
         url = uri("https://maven.blamejared.com/")
+    }
+    maven {
+        name = "Architectury"
+        url = uri("https://maven.architectury.dev/")
     }
     mavenCentral()
 }
@@ -80,6 +85,20 @@ dependencies {
     compileOnly("mezz.jei:jei-${property("minecraft_version")}-common:${property("jei_version")}")
     compileOnly("mezz.jei:jei-${property("minecraft_version")}-fabric-api:${property("jei_version")}")
     runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-fabric:${property("jei_version")}")
+
+    // Optional: REI (RoughlyEnoughItems) recipe-transfer/ghost-ingredient integration, same pattern
+    // as JEI above (see rei.common.Common / rei.fabric.ReiRefinedStoragePlugin). Needs Architectury
+    // for its cross-loader event/fluid types (CompoundEventResult, architectury's FluidStack) used
+    // across REI's own API -- not include()'d, same reasoning as REI itself: a real, commonly
+    // already-present mod, not something to bundle.
+    compileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}") {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
+    runtimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}") {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
+    compileOnly("dev.architectury:architectury-fabric:${property("architectury_version")}")
+    runtimeOnly("dev.architectury:architectury-fabric:${property("architectury_version")}")
 }
 
 sourceSets {
