@@ -95,6 +95,8 @@ import com.refinedmods.refinedstorage.common.support.resource.ItemResource;
 import com.refinedmods.refinedstorage.common.upgrade.RegulatorUpgradeItem;
 import com.refinedmods.refinedstorage.common.util.IdentifierUtil;
 import com.refinedmods.refinedstorage.common.util.ServerListener;
+import com.refinedmods.refinedstorage.jei.common.Common;
+import com.refinedmods.refinedstorage.jei.neoforge.NeoForgePlatform;
 import com.refinedmods.refinedstorage.neoforge.api.RefinedStorageNeoForgeApi;
 import com.refinedmods.refinedstorage.neoforge.api.RefinedStorageNeoForgeApiProxy;
 import com.refinedmods.refinedstorage.neoforge.autocrafting.ResourceHandlerExternalPatternSinkStrategyFactoryImpl;
@@ -227,6 +229,7 @@ public class ModInitializer extends AbstractModInitializer {
         this.modVersion = modContainer.getModInfo().getVersion().toString();
 
         PlatformProxy.loadPlatform(new PlatformImpl(modContainer));
+        Common.setPlatform(new NeoForgePlatform());
         initializePlatformApi();
         ((RefinedStorageNeoForgeApiProxy) RefinedStorageNeoForgeApi.INSTANCE).setDelegate(
             new RefinedStorageNeoForgeApiImpl());
@@ -660,6 +663,7 @@ public class ModInitializer extends AbstractModInitializer {
     @SubscribeEvent
     public void onCommonSetup(final FMLCommonSetupEvent e) {
         registerUpgradeMappings();
+        Common.init(RefinedStorageApi.INSTANCE);
     }
 
     @SubscribeEvent

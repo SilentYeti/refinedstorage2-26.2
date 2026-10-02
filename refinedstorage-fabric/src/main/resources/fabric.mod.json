@@ -25,6 +25,12 @@
     ],
     "modmenu": [
       "com.refinedmods.refinedstorage.fabric.modmenu.ModMenuApiImpl"
+    ],
+    "refinedstorage_plugin": [
+      "com.refinedmods.refinedstorage.jei.fabric.JeiRefinedStoragePlugin"
+    ],
+    "jei_mod_plugin": [
+      "com.refinedmods.refinedstorage.jei.common.RefinedStorageModPlugin"
     ]
   },
   "mixins": [
@@ -39,6 +45,7 @@
     "team_reborn_energy": "*"
   },
   "suggests": {
-    "modmenu": "*"
+    "modmenu": "*",
+    "jei": "*"
   }
 }

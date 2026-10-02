@@ -22,6 +22,10 @@ repositories {
         name = "Cloth Config"
         url = uri("https://maven.shedaniel.me/")
     }
+    maven {
+        name = "JEI"
+        url = uri("https://maven.blamejared.com/")
+    }
     mavenCentral()
 }
 
@@ -68,6 +72,14 @@ dependencies {
     testCompileOnly(libs.apiguardian)
 
     bundledProjectPaths.forEach { path -> compileOnly(project(path)) }
+
+    // Optional: JEI recipe-transfer/ghost-ingredient integration. Not include()'d -- players who
+    // want it install JEI themselves; this mod works fine without it (see jei.common.Common /
+    // jei.fabric.JeiRefinedStoragePlugin, registered as entrypoints but inert until JEI loads them).
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-common-api:${property("jei_version")}")
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-common:${property("jei_version")}")
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-fabric-api:${property("jei_version")}")
+    runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-fabric:${property("jei_version")}")
 }
 
 sourceSets {

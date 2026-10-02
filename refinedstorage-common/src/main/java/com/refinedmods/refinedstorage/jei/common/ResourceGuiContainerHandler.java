@@ -1,0 +1,50 @@
+package com.refinedmods.refinedstorage.jei.common;
+
+import com.refinedmods.refinedstorage.common.api.RefinedStorageApi;
+import com.refinedmods.refinedstorage.common.api.support.resource.PlatformResourceKey;
+import com.refinedmods.refinedstorage.common.support.AbstractBaseScreen;
+
+import java.util.Optional;
+
+import mezz.jei.api.gui.builder.IClickableIngredientFactory;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
+import mezz.jei.api.ingredients.IIngredientHelper;
+import mezz.jei.api.ingredients.ITypedIngredient;
+import mezz.jei.api.runtime.IClickableIngredient;
+import mezz.jei.api.runtime.IIngredientManager;
+import org.jspecify.annotations.Nullable;
+
+class ResourceGuiContainerHandler implements IGuiContainerHandler<AbstractBaseScreen<?>> {
+    private final IIngredientManager ingredientManager;
+
+    ResourceGuiContainerHandler(final IIngredientManager ingredientManager) {
+        this.ingredientManager = ingredientManager;
+    }
+
+    @Override
+    public Optional<? extends IClickableIngredient<?>> getClickableIngredientUnderMouse(
+        final IClickableIngredientFactory builder,
+        final AbstractBaseScreen<?> containerScreen,
+        final double mouseX,
+        final double mouseY
+    ) {
+        return convertToIngredient(containerScreen.getHoveredResource()).flatMap(this::convertToClickableIngredient);
+    }
+
+    public Optional<Object> convertToIngredient(@Nullable final PlatformResourceKey resource) {
+        if (resource == null) {
+            return Optional.empty();
+        }
+        return RefinedStorageApi.INSTANCE.getIngredientConverter().convertToIngredient(resource);
+    }
+
+    private Optional<IClickableIngredient<?>> convertToClickableIngredient(final Object ingredient) {
+        final IIngredientHelper<Object> helper = ingredientManager.getIngredientHelper(ingredient);
+        final Optional<ITypedIngredient<Object>> maybeTypedIngredient = ingredientManager.createTypedIngredient(
+            helper.getIngredientType(),
+            ingredient,
+            false
+        );
+        return maybeTypedIngredient.map(typedIngredient -> new ClickableIngredient<>(typedIngredient, 16, 16));
+    }
+}

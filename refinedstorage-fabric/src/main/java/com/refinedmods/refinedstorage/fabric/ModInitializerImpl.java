@@ -120,6 +120,8 @@ import com.refinedmods.refinedstorage.fabric.support.energy.ContainerItemContext
 import com.refinedmods.refinedstorage.fabric.support.energy.EnergyStorageAdapter;
 import com.refinedmods.refinedstorage.fabric.support.resource.ResourceContainerFluidStorageAdapter;
 import com.refinedmods.refinedstorage.fabric.support.resource.VariantUtil;
+import com.refinedmods.refinedstorage.jei.common.Common;
+import com.refinedmods.refinedstorage.jei.fabric.FabricPlatform;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -207,6 +209,7 @@ public class ModInitializerImpl extends AbstractModInitializer implements ModIni
     public void onInitialize() {
         AutoConfig.register(ConfigImpl.class, Toml4jConfigSerializer::new);
         PlatformProxy.loadPlatform(new PlatformImpl());
+        Common.setPlatform(new FabricPlatform());
         initializePlatformApi();
         ((RefinedStorageFabricApiProxy) RefinedStorageFabricApi.INSTANCE).setDelegate(
             new RefinedStorageFabricApiImpl()

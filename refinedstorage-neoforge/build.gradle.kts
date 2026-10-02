@@ -46,6 +46,15 @@ dependencies {
 
     bundledProjectPaths.forEach { path -> compileOnly(project(path)) }
 
+    // Optional: JEI recipe-transfer/ghost-ingredient integration -- see
+    // refinedstorage-fabric/build.gradle.kts for the full note. Not required at runtime; NeoForge's
+    // own annotation scanning finds jei.common.RefinedStorageModPlugin's @JeiPlugin only if JEI itself
+    // is present to look for it.
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-common-api:${property("jei_version")}")
+    testCompileOnly("mezz.jei:jei-${property("minecraft_version")}-common:${property("jei_version")}")
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge-api:${property("jei_version")}")
+    runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}")
+
     testImplementation(libs.junit.api)
     testImplementation(libs.junit.params)
     testRuntimeOnly(libs.junit.engine)

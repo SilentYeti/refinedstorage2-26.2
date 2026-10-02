@@ -19,6 +19,14 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.refinedmods.refinedarchitect")
             }
         }
+        // JEI recipe-transfer/ghost-ingredient integration (optional, see refinedstorage-common's
+        // build.gradle.kts). Declared here, not per-project: under PREFER_PROJECT, a project-level
+        // `repositories {}` block replaces rather than extends what net.neoforged.moddev.repositories
+        // injects for refinedstorage-common, which breaks its NeoForm tooling resolution.
+        maven {
+            name = "JEI"
+            url = uri("https://maven.blamejared.com/")
+        }
         mavenCentral()
     }
     versionCatalogs {

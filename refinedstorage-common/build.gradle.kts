@@ -36,6 +36,11 @@ dependencies {
     testImplementation(libs.assertj)
     testImplementation(libs.equalsverifier)
     testRuntimeOnly(libs.junit.engine)
+
+    // Optional: JEI integration (com.refinedmods.refinedstorage.jei.common), inert unless JEI's own
+    // loader actually invokes it -- see refinedstorage-fabric/build.gradle.kts for the full note.
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-common-api:${property("jei_version")}")
+    compileOnly("mezz.jei:jei-${property("minecraft_version")}-common:${property("jei_version")}")
 }
 
 tasks.withType<JavaCompile>().configureEach {
